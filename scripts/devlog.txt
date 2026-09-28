@@ -1,0 +1,5 @@
+[2026-09-26 15:21:30] Changing from websocket to http connectiondue to the former having buffer limits that unable me to send big chunks of audio to the server for processing. HTTP bottleneck is not deemed as a threat.
+[2026-09-26 15:24:41] Added C:/Program Files/Git/ping endpoint to API and initial Godot call in _ready.
+[2026-09-26 15:57:44] Added C:/Program Files/Git/listen endpoint which handles binary data. Works correctly by only receiving data. No processing so far.
+[2026-09-26 19:54:58] Added a label over the player so you can see the command being executed
+[2026-09-27 12:35:35] Configured cache headers at Godot to avoid repeating instructions.
