@@ -89,11 +89,6 @@ async def listen_audio(request: Request):
     is_stereo = request.headers.get("x-stereo", "true").lower() == "true"
     header_model = request.headers.get("x-model", default_model)
 
-    # Allow player to use different models
-    model = header_model if header_model in AVAILABLE_MODELS else default_model
-    session_listener = listener if model == default_model else get_listener(model)
-    logger.info(f"Using Whisper's {model} model")
-
     # Godot usually sends 16-bit PCM as integers:
     audio_samples = np.frombuffer(byte_data, dtype=np.int16)
 
@@ -115,6 +110,12 @@ async def listen_audio(request: Request):
         return {"status": "ERROR", "message": "Invalid audio data (NaNs)"}
 
     logger.info("Got audio data. Processing in pipeline...")
+
+    # Allow player to use different models
+    model = header_model if header_model in AVAILABLE_MODELS else default_model
+    session_listener = listener if model == default_model else get_listener(model)
+    logger.info(f"Using Whisper's {model} model")
+
     results = pipeline(
         audio_samples=audio_mono,
         listener=session_listener,
