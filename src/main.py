@@ -31,7 +31,7 @@ app.add_middleware(
 logger = get_logger()
 logger.info("Instantiated custom logger")
 
-default_model: Model = "base"
+default_model: Model = "small"
 listener = get_listener(default_model)
 logger.info(f"Instantiated Whisper listener using {default_model} default model")
 
@@ -122,6 +122,7 @@ async def listen_audio(request: Request):
         vocabulary_mappings=vocabulary,
         vocabulary_vectors=vocabulary_vectors,
         logger=logger,
+        threshold=0.6,
     )
     logger.info(f"Got pipeline's results in {results["pipeline_latency"]["overall"]}s")
 
