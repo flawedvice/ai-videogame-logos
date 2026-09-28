@@ -1,0 +1,136 @@
+[gd_scene format=3 uid="uid://obtlgpyeu4in"]
+
+[ext_resource type="Texture2D" uid="uid://ccuhqvdvrwtdg" path="res://assets/sprites/spacetileset.png" id="1_hpvv5"]
+[ext_resource type="Script" uid="uid://d8x8be23w4q4" path="res://scripts/door.gd" id="1_uvdjg"]
+[ext_resource type="FontFile" uid="uid://bxdqkqkloq484" path="res://assets/fonts/m5x7.ttf" id="3_83dcw"]
+[ext_resource type="AudioStream" uid="uid://dox2x6yepy0qi" path="res://assets/sound/dooropen.wav" id="4_18pbm"]
+[ext_resource type="AudioStream" uid="uid://bos18mhisw8r" path="res://assets/sound/doorclose.wav" id="5_q5w8r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uvdjg"]
+atlas = ExtResource("1_hpvv5")
+region = Rect2(48, 128, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_83dcw"]
+atlas = ExtResource("1_hpvv5")
+region = Rect2(32, 128, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_la1wf"]
+atlas = ExtResource("1_hpvv5")
+region = Rect2(16, 128, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_18pbm"]
+atlas = ExtResource("1_hpvv5")
+region = Rect2(0, 128, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5w8r"]
+atlas = ExtResource("1_hpvv5")
+region = Rect2(48, 128, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g4v7s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uvdjg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_83dcw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_la1wf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_18pbm")
+}],
+"loop": 0,
+"name": &"close",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_18pbm")
+}],
+"loop": 0,
+"name": &"idle_closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q5w8r")
+}],
+"loop": 0,
+"name": &"idle_open",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_18pbm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_la1wf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_83dcw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uvdjg")
+}],
+"loop": 0,
+"name": &"open",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q5w8r"]
+size = Vector2(10, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yf5fn"]
+size = Vector2(75.19348, 29.12408)
+
+[sub_resource type="LabelSettings" id="LabelSettings_g4v7s"]
+font = ExtResource("3_83dcw")
+
+[node name="Door" type="StaticBody2D" unique_id=267775956]
+script = ExtResource("1_uvdjg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=738049010]
+sprite_frames = SubResource("SpriteFrames_g4v7s")
+animation = &"close"
+autoplay = "idle_closed"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1102161097]
+shape = SubResource("RectangleShape2D_q5w8r")
+
+[node name="InteractionRange" type="Area2D" parent="." unique_id=1828171545]
+collision_layer = 16
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionRange" unique_id=1922965084]
+position = Vector2(0, -4.7683716e-07)
+scale = Vector2(0.7447454, -1.0987471)
+shape = SubResource("RectangleShape2D_yf5fn")
+
+[node name="Label" type="Label" parent="." unique_id=666314314]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -49.0
+offset_top = -40.0
+offset_right = 50.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Interact with door"
+label_settings = SubResource("LabelSettings_g4v7s")
+horizontal_alignment = 1
+
+[node name="Sounds" type="Node2D" parent="." unique_id=2004098301]
+
+[node name="OpenSound" type="AudioStreamPlayer2D" parent="Sounds" unique_id=263405325]
+stream = ExtResource("4_18pbm")
+
+[node name="CloseSound" type="AudioStreamPlayer2D" parent="Sounds" unique_id=1610825348]
+stream = ExtResource("5_q5w8r")
+
+[connection signal="body_entered" from="InteractionRange" to="." method="_on_interaction_range_body_entered"]
+[connection signal="body_exited" from="InteractionRange" to="." method="_on_interaction_range_body_exited"]
