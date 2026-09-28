@@ -51,7 +51,7 @@ def normalize(
             logger.info("Got literal")
             match_by = "literal"
             end = time.perf_counter()
-            return (word, f"{word} ({vocab})"), match_by, end - start
+            return (word, vocab), match_by, end - start
 
     # Get matches with minimal typos using Levenshtein distance
     for vocab in vocabulary.keys():
